@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blockchain Client</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendor/DataTables/css/datatables.min.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!---Menú top--->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Blockchain Client</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"  >
+              <a class="nav-link" href="/index">Wallet Generator
+              </a>
+            </li>
+            <li class="nav-item " >
+              <a class="nav-link" href="/nova/entrada">Nova Entrada</a>
+            </li>
+            <li class="nav-item " active>
+              <a class="nav-link" href="/veure/entrades">Veure CVs
+                </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="http://127.0.0.1:5001">Log In
+                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+    <!-- Blockchain Node URL Selector -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card-body">
+            <h4 class="card-title">Veure CVs</h4>
+            <p class="card-text">Entra un URL d'usuari per veure el seu CV</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container alert alert-secondary">
+
+        <div class="row">
+          <label class="col-sm-2">Usuari URL:</label>
+          <div class="col-sm-10">
+            <textarea id="node_url" rows="1" class="form-control">http://127.0.0.1:5001</textarea>
+          </div>
+        </div>
+
+        <br>
+        <form id="view_form">
+
+            <div class="row">
+              <label class="col-sm-12">Entitat email:</label>
+              <div class="col-sm-12">
+                <input type="text" name="email" id="email" rows="2" class="form-control" >
+
+              </div>
+            </div>
+          <br>
+        </form>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <input type="button" id="view_CV" class="btn btn-primary btn-lg" value="Comprova Autorizació">
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <input type="button" id="view_CV_fin" class="btn btn-primary btn-lg" value="Veure CV" disabled>
+          </div>
+        </div>
+
+    </div>
+
+    <br>
+    <!-- Blockchain Transactions Table -->
+    <div class="container">
+      <table id="entrades_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      </table>
+    </div>
+
+    <!-- Alert Message for unsuccessful entrada -->
+    <div class="modal modal-alert fade" id="unsuccessful_view_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">No estas autoritzat!</h4>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" id="button_confirm_entrada" class="btn btn-danger" data-dismiss="modal">OK</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Message for non successful entrada -->
+    <div class="modal modal-alert fade" id="success_view_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-body">
+
+              <form id="confirmation_view_form">
+
+                <div class="row">
+                  <label class="col-sm-12">Entitat Public Key:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="entitat_puk" id="entitat_puk" rows="2" class="form-control">
+
+                  </div>
+                </div>
+
+                  <div class="row">
+                    <label class="col-sm-12">Entitat Private Key:</label>
+                    <div class="col-sm-12">
+                      <input type="text" name="entitat_prk" id="entitat_prk" rows="2" class="form-control">
+
+                    </div>
+                  </div>
+              </form>
+
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" id="button_confirm_prk" class="btn btn-success">Confirm Private Key</button>
+            </div>
+
+          </div>
+
+        </div>
+          </div>
+
+        </div>
+
+
+
+      <br><br>
+
+          <!-- Blockchain Transactions Table -->
+          <div class="container">
+            <table id="entrades_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            </table>
+          </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/DataTables/js/datatables.min.js"></script>
+    <script src="/static/vendor/DataTables/js/ellipsis.js"></script>
+
+
+
+    <script>
+
+
+
+    $(function () {
+        $("#view_CV").click(function () {
+
+          $.ajax({
+            url: document.getElementById("node_url").value + "/view/cv",
+            type: 'POST',
+            headers: {'Access-Control-Allow-Origin':'*'},
+            dataType : 'json',
+            data: $('#view_form').serialize(),
+            success: function(response){
+
+              $("#success_view_modal").modal('show');
+              $("#unsuccessful_view_modal").modal('hide');
+
+            },
+            error: function(error){
+              $("#success_view_modal").modal('hide');
+              $("#unsuccessful_view_modal").modal('show');
+            }
+          });
+
+        });
+    });
+
+    $(function () {
+        $("#button_confirm_prk").click(function () {
+
+          $.ajax({
+            url: '/auth/cv',
+            type: 'POST',
+            dataType : 'json',
+            data: $('form').serialize(),
+            success: function(response){
+
+              const VeureCV = document.getElementById('view_CV_fin');
+              VeureCV.disabled = false
+              $("#success_view_modal").modal('hide');
+              $("#unsuccessful_view_modal").modal('hide');
+
+            },
+            error: function(error){
+              $("#success_view_modal").modal('hide');
+              $("#unsuccessful_view_modal").modal('show');
+            }
+          });
+
+        });
+    });
+
+
+    $(function(){
+
+
+      $('#view_CV_fin').click(function(){
+
+        $.ajax({
+          url: document.getElementById("node_url").value + "/chain/get",
+          type: 'GET',
+          headers: {'Access-Control-Allow-Origin':'*'},
+          success: function(response){
+
+            console.log(response);
+            //Generate Transactions Table
+            var entrades = [];
+            count = 1;
+
+            for (i = 1; i < response.length; i++) {
+              for (j = 0; j < response["chain"][i]["entrades"].length; j++) {
+
+                //format date
+                var options = {  year: "numeric", month: "short",  day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"  };
+                var date = new Date(response["chain"][i]["timestamp"] * 1000);
+                var formattedDateTime = date.toLocaleTimeString("en-us", options);
+
+                entrada = [count,
+                              response["chain"][i]["entrades"][j]["entitat"],
+                              response["chain"][i]["transactions"][j]["info"],
+                              formattedDateTime];
+                transactions.push(entrada);
+
+                count += 1;
+              };
+            };
+
+            // Restrict a column to 10 characters, do split words
+              $('#entrades_table').dataTable( {
+                data: entrades,
+                columns: [{ title: "#" },
+                          { title: "Entitat"},
+                          { title: "Info"},
+                          { title: "Data"}],
+                columnDefs: [ {targets: [1,2,3], render: $.fn.dataTable.render.ellipsis( 25 )}]
+              } );
+
+          },
+          error: function(error){
+            console.log(error);
+          }
+        });
+      });
+
+
+    })
+
+
+
+
+
+
+        </script>
+
+
+
+      </body>
+
+      </html>

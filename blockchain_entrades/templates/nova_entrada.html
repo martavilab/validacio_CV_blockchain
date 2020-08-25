@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blockchain Frontend</title>
+
+    <!-- Stylesheets -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+    <link href="/static/vendor/DataTables/css/datatables.min.css" rel="stylesheet">
+    <link href="/static/vendor/font-awesome/font-awesome.min.css" rel="stylesheet">
+
+
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!---Menú top--->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Blockchain Client</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item" >
+              <a class="nav-link" href="/index">Wallet Generator
+              </a>
+            </li>
+            <li class="nav-item " active>
+              <a class="nav-link" href="/nova/entrada">Nova Entrada</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/veure/entrades">Veure CVs
+                </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="http://127.0.0.1:5001">Log In
+                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card-body">
+            <h4 class="card-title">Create a new entry</h4>
+            <p class="card-text">Enter entry details and click on "Generate New Entry"</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+
+    <div class="container alert alert-secondary">
+    <form id="entrada_form">
+
+        <div class="row">
+          <label class="col-sm-2">Entity Public Key:</label>
+          <div class="col-sm-10">
+            <input type="text" name="entitat_public_key" id="entitat_public_key" rows="2" class="form-control">
+
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label class="col-sm-2">Entity Private Key:</label>
+          <div class="col-sm-10">
+            <input type="text" name="entitat_private_key" id="entitat_private_key" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label class="col-sm-2">To:</label>
+          <div class="col-sm-10">
+            <input type="text" name="usuari" id="usuari" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label class="col-sm-2">Label:</label>
+          <div class="col-sm-10">
+          <select name="label" id='label' class="custom-select">
+            <option selected>-</option>
+            <option value="ed">Education</option>
+            <option value="job">Expertise</option>
+            <option value="pp">Project/Paper</option>
+            <option value="lang">Language</option>
+            <option value="other">Other</option>
+          </select>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label class="col-sm-2">Information:</label>
+          <div class="col-sm-10">
+            <input type="text" name="info" id="info" rows="8" class="form-control">
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <input type="button" id="generate_entrada" name="generate_entrada" class="btn btn-primary btn-lg" value="Generate New Entry">
+          </div>
+        </div>
+
+        <br>
+
+    </form>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal modal-alert fade" id="Confirmar" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <div class="modal-title col-md-10">Entry confirmation</div>
+            <button type="button" class="close col-md-2" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+
+          <div class="modal-body">
+
+            <form id="confirmation_entrada_form">
+
+                <div class="row">
+                  <label class="col-sm-12">Entity Public Key:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="confirmation_entitat" id="confirmation_entitat" rows="4" class="form-control" readonly><br>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label class="col-sm-12">Entity email:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="confirmation_email" id="confirmation_email" rows="2" class="form-control" readonly><br>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label class="col-sm-12">To:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="confirmation_usuari" id="confirmation_usuari" rows="2" class="form-control" readonly><br>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <label class="col-sm-12">Label:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="confirmation_label" id="confirmation_label" rows="2" class="form-control" readonly><br>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label class="col-sm-12">Information:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="confirmation_info" id="confirmation_info" rows="2" class="form-control" readonly><br>
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <label class="col-sm-12">Signature:</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="signature" id="signature" rows="2" class="form-control" readonly><br>
+                  </div>
+                </div>
+
+            </form>
+
+
+            <div class="row">
+              <label class="col-sm-12">Blockchain Node URL:</label>
+              <div class="col-sm-12">
+                <input type="text" name="node_url" id="node_url" rows="2" class="form-control" value="http://127.0.0.1:5001">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            <button type="button" id="button_confirm_entrada" class="btn btn-success">Confirm entrada</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Alert Message for successful entrada -->
+    <div class="modal modal-alert fade" id="success_entrada_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Entrada enviada!</h4>
+              <p>Ja has realitzat la teva entrada. S'afegirà al CV de l'usuari.</p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" id="button_confirm_entrada" class="btn btn-success" data-dismiss="modal">OK</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Message for non successful entrada -->
+    <div class="modal modal-alert fade" id="unsuccessful_entrada_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Entrada incorrecte!</h4>
+              <p>Les KEYS no son correctes. Torna-ho a intentar</p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" id="button_return_entrada" href='/nova/entrada' class="btn btn-danger" data-dismiss="modal">Retorna Entrada</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <script scr="/static/vendor/jquery/jquery.min.js"></script>
+    <script scr="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script scr="/static/vendor/DataTables/js/datatables.min.js"></script>
+    <script scr="/static/vendor/DataTables/js/ellipsis"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
+    <script>
+      jQuery.noConflict();
+      $(function () {
+          $("#generate_entrada").click(function () {
+            var e = document.getElementById("label");
+            var label = e.options[e.selectedIndex].text;
+            $.ajax({
+              url: "http://127.0.0.1:4002/confirmar/entrada",
+              type: 'POST',
+              headers: {'Access-Control-Allow-Origin':'*'},
+              dataType : 'json',
+              data: $('#entrada_form').serialize(),
+              success: function(response){
+                var email = response['email'];
+                if ( response['bool']==true ) {
+                    if ( response['needsval']==true ){
+                        $("#extraval").modal('show');
+                        $("#Confirmar").modal('hide');
+                        $("#success_entrada_modal").modal('hide');
+                        $("#unsuccessful_entrada_modal").modal('hide');
+                        $(function(){
+                            $('#submit').click(function(){ //sendFiles() {
+                              var docs = document.querySelectorAll(".obj");
+                              console.log[docs[0].file];
+                              console.log[docs[0]];
+
+                              // for (var i = 0; i < docs.length; i++) {
+                              //  new FileUpload(docs[i], docs[i].file);
+                              }
+                            //}
+                          )});}
+                          else{
+
+                      $.ajax({
+                        url: "/generate/entrada",
+                        type: 'POST',
+                        dataType : 'json',
+                        data: $('#entrada_form').serialize(),
+                        success: function(response){
+                            document.getElementById("confirmation_entitat").value = response["entrada"]["entitat_public_key"];
+                            document.getElementById("confirmation_email").value = email;
+                            document.getElementById("confirmation_usuari").value = response["entrada"]["usuari"];
+                            document.getElementById("confirmation_label").value = label;
+                            document.getElementById("confirmation_info").value = response["entrada"]["info"];
+                            document.getElementById("signature").value = response["signature"];
+
+                            $("#Confirmar").modal('show');
+                            $("#success_entrada_modal").modal('hide');
+                            $("#unsuccessful_entrada_modal").modal('hide');
+
+
+                          },
+                          error: function(error){
+                            $("#unsuccessful_entrada_modal").modal('show');
+                        }})
+                      }}},
+
+              error: function(error){
+                        $("#unsuccessful_entrada_modal").modal('show');
+
+                    }});
+
+                  });
+              });
+
+
+      $(function () {
+          $("#button_confirm_entrada").click(function () {
+            $.ajax({
+              url: document.getElementById("node_url").value + "/entrada/new",
+              type: "POST",
+              headers: {'Access-Control-Allow-Origin':'*'},
+              dataType : 'json',
+              data: $('#confirmation_entrada_form').serialize(),
+              success: function(response){
+                console.log($('#confirmation_entrada_form').serialize());
+                //reset both forms
+                $("#entrada_form")[0].reset();
+                $("#confirmation_entrada_form")[0].reset();
+
+                //clean text boxes
+                $("#entitat").val("");
+                $("#entitat_private_key").val("");
+                $("#label").val("");
+                $("#info").val("");
+
+                $("#Confirmar").modal('hide');
+                $("#success_entrada_modal").modal('show');
+                $("#unsuccessful_entrada_modal").modal('hide');
+
+              },
+              error: function(error){
+                console.log(error);
+              }
+            });
+          });
+      });
+
+
+    </script>
+
+
+
+
+  </body>
+
+</html>
