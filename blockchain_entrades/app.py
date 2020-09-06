@@ -1,29 +1,8 @@
-import hashlib
-import json
-from time import time
-from urllib.parse import urlparse
-from uuid import uuid4
-
 from flask import Flask, jsonify, request, render_template
-
-import Crypto
-import Crypto.Random
-
-from Crypto.Hash import SHA
-from Crypto.PublicKey import RSA
-
-
-import binascii
-
-from collections import OrderedDict
-
 from blockchain_entrades import Entrada
-
-
 import sqlite3
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def home():
@@ -37,12 +16,9 @@ def index():
 def make_entrada():
     return render_template('./nova_entrada.html')
 
-
-
 @app.route('/veure/entrades')
 def view_entrada():
     return render_template('./veure_entrades.html')
-
 
 @app.route('/generate/entrada', methods=['POST'])
 def generate_entrada():
@@ -54,9 +30,6 @@ def generate_entrada():
 	entrada = Entrada(entitat_public_key, entitat_private_key, usuari, info)
 	response = {'entrada': entrada.to_dict(), 'signature': entrada.sign_entrada()}
 	return jsonify(response), 200
-
-
-
 
 
 if __name__ == '__main__':
