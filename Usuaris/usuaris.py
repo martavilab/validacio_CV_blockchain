@@ -98,6 +98,23 @@ def confirm():
 			conn.close()
 			return jsonify(response), 200
 
+@app.route('/auth/cv', methods=['POST'])
+def auth_cv():
+	email=request.form['email']
+	entitat_puk=request.form['entitat_puk']
+	entitat_prk=request.form['entitat_prk']
+	conn=sqlite3.connect('entitats.db')
+	c=conn.cursor()
+	c.execute("SELECT * FROM Entitats")
+	entitats=c.fetchall()
+	for elem in entitats:
+		if elem[0]==entitat_puk and elem[1]==entitat_prk and elem[2]==email:
+			conn.close()
+			response = {'Response': 'Autoritzat'}
+			return jsonify(response), 200
+	response= {'Response': 'NO Autoritzat'}
+	conn.close()
+	return jsonify(response), 400
 
 
 if __name__ == '__main__':
